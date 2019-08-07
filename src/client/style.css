@@ -1,0 +1,212 @@
+body {
+  
+  padding: 20px;
+  margin: 0;
+}
+h1, h2, p, ul, li {
+  font-family: sans-serif;
+}
+ul.header li {
+  display: inline;
+  list-style-type: none;
+  margin: 0;
+}
+ul.header {
+  background-color: #111;
+  padding: 0;
+}
+ul.header li a {
+  color: #FFF;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 20px;
+  display: inline-block;
+}
+.content {
+  background-color: #FFF;
+  padding: 20px;
+}
+.content h2 {
+  padding: 0;
+  margin: 0;
+}
+.content li {
+  margin-bottom: 10px;
+}
+.active {
+  background-color: #0099FF;
+}
+.logo{
+  width: 75%;
+}
+.loginuser{
+  border-radius: 5px;
+  background: #2db6eb;
+  padding: 5px;
+  color: white;
+  cursor: pointer;
+  
+}
+.loginuser:hover{
+  background-color: aquamarine;
+  color: black;
+}
+.loginuser-submenu{
+  color: #111;
+  background-color: darkgray;
+}
+.loginuser-submenu:hover{
+  background-color: #2db6eb;
+  color: #111;
+}
+.admin-footer{
+  padding: 35px;
+}
+.col-xs-4{
+  width: 40%;
+}
+.col-xs-4:first-child label{
+  float: left;
+}
+.col-xs-4:first-child #page-menu{
+  float: left;
+}
+
+.col-xs-4:nth-child(1) label{
+  float: left;
+  padding-left: 10px;
+}
+.col-xs-4:nth-child(1) input{
+  float: left;
+  
+}
+.col-xs-8{
+  width: 60%;
+}
+.pagination li{
+  padding: 0 10px 0 10px;
+  border: 0.5px solid grey;
+}
+.pagination li:hover{
+  background-color: #2db6eb; 
+}
+.pagination li:hover a{
+ 
+  color: white;
+}
+.pagination .active{
+  background-color: #2db6eb;  
+}
+.pagination .active a{
+  color: #FFF;
+}
+.pagination{
+  border: 1px solid grey;
+}
+.pagination .disabled a{
+  color: #d3d3ba;
+}
+#serviceImage{
+  border-radius: 55px;
+  width: 100px;
+  height: 100px;
+}
+.custom-position{
+  position: relative;
+}
+.back{
+  background-color: #8490ff;
+  opacity: 0.7;
+  border-radius: 50px;
+}
+.mapouter{
+  margin-bottom: 40px;
+}
+.remove-gap{
+  padding-top: 20px;
+}
+.extra-row{
+  margin: 20px 0 20px 0;
+  background-color: #e7dede;
+  padding: 20px;
+}
+.headText{
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+  color: #848486;
+}
+.headText span{
+  color: rgba(185,15,47,1);
+  font-style: italic;
+}
+.banner{
+  width: 100%;
+  height: 100%;
+}
+.alignment{
+  text-align: center;
+}
+.react-sharing-button__text{
+  display: none;
+}
+.btn-color{
+  background-color: #0b51c5!important;
+  color:white!important;
+  margin-top: 10px;
+}
+.remove-padding{
+  padding: 20px 20px;
+  background-color: #af8f8f2b;
+}
+.seo-radio{
+  margin: 10px;
+}
+.align{
+  text-align: right;
+  width: 100%;
+}
+.close-button{
+  text-align: right;
+  margin-bottom: 10px;
+}
+.close-button button{
+  border-radius: 20px;
+  background-color: #1f91f2;
+  border: 0;
+}
+.cursor{
+  cursor: pointer;
+}
+.screenshot{
+  text-align: center;
+}
+.errorMsg{
+  border: 1px solid red;
+}
+.social-links{
+  padding:10px!important;
+  margin-top:0!important;
+}
+.single-post-area .social-links li a{
+  font-size: 25px;
+  color:#1c61c8;
+}
+.single-footer-widget .form-control{
+  margin-top: 9px;
+}
+.action-colmn{
+  text-align: center;
+}
+.icon-space{
+  padding: 0 10px 0 0;
+}
+.bannerImage img{
+  width: 100%;
+}
+.bannerCaption{
+  position: absolute;
+  top: 480px;
+  text-align: center;
+  width: 100%;
+}
