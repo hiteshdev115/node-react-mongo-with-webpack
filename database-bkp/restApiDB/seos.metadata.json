@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"restApiDB.seos"},{"v":2,"unique":true,"key":{"pageTitle":1},"name":"pageTitle_1","ns":"restApiDB.seos","background":true}],"uuid":"03e4c5ee012a4c838183e0fbb93ba56d"}

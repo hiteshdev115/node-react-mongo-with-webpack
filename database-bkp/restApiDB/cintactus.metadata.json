@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"restApiDB.cintactus"},{"v":2,"unique":true,"key":{"email":1},"name":"email_1","ns":"restApiDB.cintactus","background":true}],"uuid":"249930ce83584c15b3311ac7bbae975e"}
