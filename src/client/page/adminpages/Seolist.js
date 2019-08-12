@@ -94,7 +94,7 @@ class Seolist extends Component {
           metaTitle:allSeo[i].metaTitle,
           created_at:<Moment format="YYYY-MM-DD HH:mm">{allSeo[i].created_at}</Moment>,
           updated_at:<Moment format="YYYY-MM-DD HH:mm">{allSeo[i].updated_at}</Moment>,
-          action:<div className="action-colmn"><a href={"./editseo/"+allSeo[i]._id} className="icon-space"><i class="fas fa-pencil-alt"></i></a>
+          action:<div className="action-colmn"><a href={"/admin/editseo/"+allSeo[i]._id} className="icon-space"><i class="fas fa-pencil-alt"></i></a>
           <a onClick={() => this.deleteSeo(allSeo[i]._id)} className="icon-space"><i class="fas fa-trash-alt"></i></a></div>
         });
       }
@@ -115,7 +115,7 @@ class Seolist extends Component {
                 />
                 <div className="progress-table-wrap">
                     <div className="progress-table">
-                        <a href="./addnewseo" className="genric-btn primary circle">ADD NEW</a>
+                        <a href="/admin/addnewseo" className="genric-btn primary circle">ADD NEW</a>
                     </div>
                 </div>
             </div>

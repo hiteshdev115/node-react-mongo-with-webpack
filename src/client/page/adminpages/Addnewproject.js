@@ -93,7 +93,7 @@ class Addnewproject extends Component {
                 //console.log(result);
                 this.setState({ message: '' });
                 //var resultObject = JSON.parse(result.data.userData);
-                this.props.history.push('./project-manage');
+                this.props.history.push('/admin//project-manage');
             })
           .catch((error) => {
             console.log('===Error=='+error);
@@ -179,7 +179,7 @@ class Addnewproject extends Component {
                 <br/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Save</button>
                 <br/>
-                <a href="./project-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
+                <a href="/admin/project-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
             </form>
             </div>
         </section>      

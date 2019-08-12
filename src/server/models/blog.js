@@ -19,6 +19,7 @@ var blogSchema = new Schema({
   metaDescription: String,
   follow:{ type: String, default: 'follow' },
   index:{ type: String, default: 'index' },
+  category: String,
   created_at: Date,
   updated_at: Date
 });

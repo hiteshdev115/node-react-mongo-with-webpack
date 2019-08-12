@@ -140,7 +140,7 @@ exports.insertblog = async function(req, res)
     req.body.author = userId;
     //console.log(userId);
     
-    //console.log(req.body);
+    console.log(req.body);
     if(req.body.blogimage !== '')
     {
         req.body.blogimage = req.file.filename;

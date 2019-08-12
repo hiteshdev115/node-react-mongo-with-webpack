@@ -68,29 +68,30 @@ class Header extends Component {
           <div className="container main-menu">
             <div className="row align-items-center justify-content-between d-flex">
               <div id="logo">
-                <a href="/admin/dashboard"><img className="logo" src={require('../../../public/images/cs-logo.png')} alt="clever samurai" title="clever samurai" /></a>
+                <a href="/admin/dashboard/"><img className="logo" src={require('../../../public/images/cs-logo.png')} alt="clever samurai" title="clever samurai" /></a>
               </div>
               <nav id="nav-menu-container">
                 <ul className="nav-menu">
-                  <li><Link to="/admin/dashboard"> Home </Link></li>
+                  <li><Link to="/admin/dashboard/"> Home </Link></li>
                   <li>Management
                     <ul>
-                      <li><Link to="/admin/blog-manage"> Blog Management </Link></li>
-                      <li><Link to="/admin/service-manage"> Services Management </Link></li>
-                      <li><Link to="/admin/project-manage"> Project Management </Link></li>
-                      <li><Link to="/admin/seo-manage"> SEO Management </Link></li>
+                      <li><Link to="/admin/blog-manage/"> Blog Management </Link></li>
+                      <li><Link to="/admin/category-manage/"> Category Management </Link></li>
+                      <li><Link to="/admin/project-manage/"> Project Management </Link></li>
+                      <li><Link to="/admin/service-manage/"> Services Management </Link></li>                      
+                      <li><Link to="/admin/seo-manage/"> SEO Management </Link></li>
                     </ul>
                   </li>
                   
-                  <li><Link to="/admin/contactus-list"> Inquiry List </Link></li>
-                  <li><Link to="/admin/settings"> Settings </Link></li>
+                  <li><Link to="/admin/contactus-list/"> Inquiry List </Link></li>
+                  <li><Link to="/admin/settings/"> Settings </Link></li>
                   <li><Link to="/" target="_blank"> Go Website </Link></li>
                   
                   {adminusername ? <li className="loginuser">Hello..{adminusername}
                         <ul className="loginuser-submenu">
                           <li onClick={this.logoutAdmin}>Logout</li>
                         </ul>
-                      </li> : <li><Link to="/login"> Login </Link> | <Link to="/register"> Sign up </Link> </li>
+                      </li> : <li><Link to="/login/"> Login </Link> | <Link to="/register/"> Sign up </Link> </li>
                   }             
                 </ul>
               </nav>		
@@ -113,11 +114,11 @@ class Header extends Component {
               </li>
              );
           } else {
-            loginUserData.push(<li key="login"><Link to="/login"> Login </Link> | <Link to="/register"> Sign up </Link> </li>);
+            loginUserData.push(<li key="login"><Link to="/login/"> Login </Link> | <Link to="/register/"> Sign up </Link> </li>);
           }
         } else {
           //console.log(username);
-          loginUserData.push(<li key="login"><Link to="/login"> Login </Link> | <Link to="/register"> Sign up </Link> </li>);
+          loginUserData.push(<li key="login"><Link to="/login/"> Login </Link> | <Link to="/register/"> Sign up </Link> </li>);
         }
         return (
           <header id="header">
@@ -129,10 +130,10 @@ class Header extends Component {
                 <nav id="nav-menu-container">
                   <ul className="nav-menu">
                     <li><Link to="/"> Home </Link></li>
-                    <li><Link to="/blog"> Blog </Link></li>
-                    <li><Link to="/services"> Services </Link></li>
-                    <li><Link to="/portfolio"> Portfolio </Link></li>
-                    <li><Link to="/contactus"> Contact us </Link></li>
+                    <li><Link to="/blog/"> Blog </Link></li>
+                    <li><Link to="/services/"> Services </Link></li>
+                    <li><Link to="/portfolio/"> Portfolio </Link></li>
+                    <li><Link to="/contactus/"> Contact us </Link></li>
                     {loginUserData}
                   </ul>
                 </nav>		
@@ -160,21 +161,22 @@ class Header extends Component {
                     <li><Link to="/admin/dashboard"> Home </Link></li>
                     <li>Management
                       <ul>
-                        <li><Link to="/admin/blog-manage"> Blog Management </Link></li>
-                        <li><Link to="/admin/service-manage"> Services Management </Link></li>
-                        <li><Link to="/admin/project-manage"> Project Management </Link></li>
-                        <li><Link to="/admin/seo-manage"> SEO Management </Link></li>
+                        <li><Link to="/admin/blog-manage/"> Blog Management </Link></li>
+                        <li><Link to="/admin/category-manage/"> Category Management </Link></li>
+                        <li><Link to="/admin/project-manage/"> Project Management </Link></li>
+                        <li><Link to="/admin/service-manage/"> Services Management </Link></li>                      
+                        <li><Link to="/admin/seo-manage/"> SEO Management </Link></li>
                       </ul>
                     </li>
-                    <li><Link to="/admin/contactus-list"> Inquiry List </Link></li>
-                    <li><Link to="/admin/settings"> Settings </Link></li>
+                    <li><Link to="/admin/contactus-list/"> Inquiry List </Link></li>
+                    <li><Link to="/admin/settings/"> Settings </Link></li>
                     <li><Link to="/" target="_blank"> Go Website </Link></li>
                     
                     {adminusername ? <li className="loginuser">Hello..{adminusername}
                           <ul className="loginuser-submenu">
                             <li onClick={this.logoutAdmin}>Logout</li>
                           </ul>
-                        </li> : <li><Link to="/login"> Login </Link> | <Link to="/register"> Sign up </Link> </li>
+                        </li> : <li><Link to="/login/"> Login </Link> | <Link to="/register/"> Sign up </Link> </li>
                     }             
                   </ul>
                 </nav>		
@@ -193,15 +195,15 @@ class Header extends Component {
                 <nav id="nav-menu-container">
                   <ul className="nav-menu">
                     <li><Link to="/"> Home </Link></li>
-                    <li><Link to="/blog"> Blog </Link></li>
-                    <li><Link to="/services"> Services </Link></li>
-                    <li><Link to="/portfolio"> Portfolio </Link></li>
-                    <li><Link to="/contactus"> Contact us </Link></li>
+                    <li><Link to="/blog/"> Blog </Link></li>
+                    <li><Link to="/services/"> Services </Link></li>
+                    <li><Link to="/portfolio/"> Portfolio </Link></li>
+                    <li><Link to="/contactus/"> Contact us </Link></li>
                     {username ? <li className="loginuser">Hello..{username}
                           <ul className="loginuser-submenu">
                             <li onClick={this.logoutUser}>Logout</li>
                           </ul>
-                        </li> : <li><Link to="/login"> Login </Link> | <Link to="/register"> Sign up </Link> </li>
+                        </li> : <li><Link to="/login/"> Login </Link> | <Link to="/register/"> Sign up </Link> </li>
                     }             
                   </ul>
                 </nav>		
@@ -223,15 +225,15 @@ class Header extends Component {
             <nav id="nav-menu-container">
               <ul className="nav-menu">
                 <li><Link to="/"> Home </Link></li>
-                <li><Link to="/blog"> Blog </Link></li>
-                <li><Link to="/services"> Services </Link></li>
-                <li><Link to="/portfolio"> Portfolio </Link></li>
-                <li><Link to="/contactus"> Contact us </Link></li>
+                <li><Link to="/blog/"> Blog </Link></li>
+                <li><Link to="/services/"> Services </Link></li>
+                <li><Link to="/portfolio/"> Portfolio </Link></li>
+                <li><Link to="/contactus/"> Contact us </Link></li>
                 {username ? <li className="loginuser">Hello..{username}
                       <ul className="loginuser-submenu">
                         <li onClick={this.logoutUser}>Logout</li>
                       </ul>
-                    </li> : <li><Link to="/login"> Login </Link> | <Link to="/register"> Sign up </Link> </li>
+                    </li> : <li><Link to="/login/"> Login </Link> | <Link to="/register/"> Sign up </Link> </li>
                 }             
               </ul>
             </nav>		

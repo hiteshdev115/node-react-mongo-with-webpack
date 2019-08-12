@@ -44,7 +44,7 @@ class Addnewseo extends Component {
                 //console.log(result);
                 this.setState({ message: '' });
                 //var resultObject = JSON.parse(result.data.userData);
-                this.props.history.push('./seo-manage');
+                this.props.history.push('/admin/seo-manage');
             })
           .catch((error) => {
             console.log('===Error=='+error);
@@ -97,7 +97,7 @@ class Addnewseo extends Component {
                 <br/><br/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Save</button>
                 <br/>
-                <a href="./seo-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
+                <a href="/admin/seo-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
             </form>
             </div>
         </section>      

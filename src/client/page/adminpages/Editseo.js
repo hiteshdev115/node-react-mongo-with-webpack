@@ -112,7 +112,7 @@ class Editseo extends Component {
         axios.put(url+`${params.seoid}`, { pageTitle, pageUrl, metaTitle, metaDescription, metaImageUrl, follow, index })
           .then((result) => {
                 this.setState({ message: '' });
-                this.props.history.push('../seo-manage');
+                this.props.history.push('/admin/seo-manage');
             })
           .catch((error) => {
             console.log('===Error=='+error);
@@ -166,7 +166,7 @@ class Editseo extends Component {
                 <br/> <br/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Save</button>
                 <br/>
-                <a href="../seo-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
+                <a href="/admin/seo-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
             </form>
             </div>
         </section>      

@@ -48,6 +48,10 @@ import AdminAddNewProjectComponent from './page/adminpages/Addnewproject';
 import AdminEditProjectComponent from './page/adminpages/Editproject';
 import AdminSettingComponent from './page/adminpages/Setting';
 
+import AdminCategoryListComponent from './page/adminpages/Categorylist';
+import AdminAddNewCategoryComponent from './page/adminpages/Addnewcategory';
+import AdminEditCategoryComponent from './page/adminpages/Editcategory';
+
 import AdminDatatableComponent from './page/adminpages/DatatablePage';
 
 
@@ -59,32 +63,35 @@ class App extends Component {
           <HeaderComponent></HeaderComponent> 
           <Switch>
             <Route exact path='/' component={HomeComponent}></Route>
-            <Route exact path='/blog' component={BlogComponent}></Route>
-            <Route exact path='/blog/:blogname' component={BlogDetailsComponent}></Route>
-            <Route exact path='/services' component={ServicesComponent}></Route>
-            <Route exact path='/service/:servicesname' component={ServiceDetailsComponent}></Route>
-            <Route exact path='/portfolio' component={PortfolioComponent}></Route>    
-            <Route exact path='/portfolio/:slug' component={ProjectDetailsComponent}></Route>
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
+            <Route exact path='/blog/' component={BlogComponent}></Route>
+            <Route exact path='/blog/:blogname/' component={BlogDetailsComponent}></Route>
+            <Route exact path='/services/' component={ServicesComponent}></Route>
+            <Route exact path='/service/:servicesname/' component={ServiceDetailsComponent}></Route>
+            <Route exact path='/portfolio/' component={PortfolioComponent}></Route>    
+            <Route exact path='/portfolio/:slug/' component={ProjectDetailsComponent}></Route>
+            <Route path='/login/' component={Login} />
+            <Route path='/register/' component={Register} />
             <Route exact path='/contactus/' component={ContactusComponent}></Route>
 
-            <Route exact path='/admin/dashboard' component={DashboardComponent}></Route>
-            <Route exact path='/admin/blog-manage' component={AdminBlogListComponent}></Route>
-            <Route exact path='/admin/addnewblog' component={AdminAddnewblogComponent}></Route>
-            <Route exact path='/admin/edit/:blogid' component={AdminEditlogComponent}></Route>            
-            <Route exact path='/admin/service-manage' component={AdminServiceListComponent}></Route>
-            <Route exact path='/admin/addnewservice' component={AdminAddNewServiceComponent}></Route>
-            <Route exact path='/admin/service/edit/:serviceid' component={AdminEditServiceComponent}></Route>
-            <Route exact path='/admin/contactus-list' component={AdminContactListComponent}></Route>
+            <Route exact path='/admin/dashboard/' component={DashboardComponent}></Route>
+            <Route exact path='/admin/blog-manage/' component={AdminBlogListComponent}></Route>
+            <Route exact path='/admin/addnewblog/' component={AdminAddnewblogComponent}></Route>
+            <Route exact path='/admin/edit/:blogid/' component={AdminEditlogComponent}></Route>            
+            <Route exact path='/admin/service-manage/' component={AdminServiceListComponent}></Route>
+            <Route exact path='/admin/addnewservice/' component={AdminAddNewServiceComponent}></Route>
+            <Route exact path='/admin/service/edit/:serviceid/' component={AdminEditServiceComponent}></Route>
+            <Route exact path='/admin/contactus-list/' component={AdminContactListComponent}></Route>
             <Route exact path='/admin/seo-manage/' component={AdminSeoListComponent}></Route>
             <Route exact path='/admin/addnewseo/' component={AdminAddNewSeoComponent}></Route>
-            <Route exact path='/admin/editseo/:seoid' component={AdminEditSeoComponent}></Route>
+            <Route exact path='/admin/editseo/:seoid/' component={AdminEditSeoComponent}></Route>
             <Route exact path='/admin/project-manage/' component={AdminProjectListComponent}></Route>
             <Route exact path='/admin/addnewproject/' component={AdminAddNewProjectComponent}></Route>     
-            <Route exact path='/admin/project/edit/:projectid' component={AdminEditProjectComponent}></Route> 
-            <Route exact path='/admin/settings' component={AdminSettingComponent}></Route>
-            <Route exact path='/admin/demopage' component={AdminDatatableComponent}></Route>
+            <Route exact path='/admin/project/edit/:projectid/' component={AdminEditProjectComponent}></Route> 
+            <Route exact path='/admin/settings/' component={AdminSettingComponent}></Route>
+            <Route exact path='/admin/demopage/' component={AdminDatatableComponent}></Route>
+            <Route exact path='/admin/category-manage/' component={AdminCategoryListComponent}></Route>
+            <Route exact path='/admin/addnewcategory/' component={AdminAddNewCategoryComponent}></Route>
+            <Route exact path='/admin/editcategory/:categoryid/' component={AdminEditCategoryComponent}></Route>
           </Switch>
           <FooterComponent></FooterComponent>
         </div>

@@ -18,11 +18,14 @@ class Editblog extends Component {
             message: '',
             file: null,
             blogimage:'',
+            categoryid:'',
             pageTitle: '',
             metaTitle: '',
             metaDescription: '',
             follow: 'follow',
             index:'Yes',
+            category:[],
+            selectedcategory: [],
             adminLoginUser: JSON.parse(localStorage.getItem('admin-userdetails'))
         };   
         this.onChangeTitle = this.onChangeTitle.bind(this);
@@ -36,12 +39,24 @@ class Editblog extends Component {
         this.handleChange = this.handleChange.bind( this );
         //this.onChangeIndex = this.onChangeIndex.bind( this );
         this.radioChange = this.radioChange.bind(this);
+        this.handleChange = this.handleChange.bind( this );  
+        this.getAllCategory();
     }
 
     toggleChange = () => {        
         this.setState({
-            isActive: this.state.isActive,
+            isActive: !this.state.isActive,
         });
+    }
+
+    handleChange(e, index) {
+        let isChecked = e.target.checked;
+        if (isChecked == true){            
+            this.state.selectedcategory = this.state.selectedcategory.concat([e.target.value]);            
+        } else {            
+            this.state.selectedcategory = this.state.selectedcategory.filter(function(val) {return val!==e.target.value})
+        }
+        console.log(this.state.selectedcategory);
     }
 
     radioChange(e) {
@@ -108,6 +123,19 @@ class Editblog extends Component {
         });
       }
 
+    getAllCategory=async() =>{    
+        fetch('http://localhost:3001/api/allcategory')
+         .then(response => response.json())
+         .then(data => {
+              this.setState({
+                isLoading: false,
+                category: data
+              })
+              //console.log(data);
+          })
+          .catch(error => this.setState({ error, isLoading: false }));  
+    }
+
     componentDidMount(){
         const { match: {params} } = this.props;
         //console.log(this.props);
@@ -134,6 +162,7 @@ class Editblog extends Component {
                 description: response.data.description,
                 blogimage:response.data.blogimage,
                 isActive:active,
+                categoryid:response.data.category,
                 pageTitle: response.data.pageTitle,
                 metaTitle: response.data.metaTitle,
                 metaDescription: response.data.metaDescription,
@@ -166,6 +195,7 @@ class Editblog extends Component {
                 subtitle: response.data.subtitle,
                 description: response.data.description,
                 blogimage:'',
+                categoryid:response.data.category,
                 pageTitle: response.data.pageTitle,
                 metaTitle: response.data.metaTitle,
                 metaDescription: response.data.metaDescription,
@@ -203,6 +233,7 @@ class Editblog extends Component {
         formData.append('subtitle',this.state.subtitle);
         formData.append('description',this.state.description);
         formData.append('isActive',this.state.isActive);
+        formData.append('category',this.state.selectedcategory);
         formData.append('pageTitle',this.state.pageTitle);
         formData.append('metaTitle',this.state.metaTitle);
         formData.append('metaDescription',this.state.metaDescription);
@@ -220,7 +251,7 @@ class Editblog extends Component {
                 //console.log(result);
                 this.setState({ message: '' });
                 //var resultObject = JSON.parse(result.data.userData);
-                this.props.history.push('../blog-manage');
+                this.props.history.push('/admin/blog-manage');
             })
           .catch((error) => {
             console.log('===Error=='+error);
@@ -231,10 +262,24 @@ class Editblog extends Component {
       }
  
     render() {
-        const { blogimage, isActive, message} = this.state;
-        //console.log('---Index----'+index);
-        //console.log('---Follow----'+this.state.follow);
+        const { blogimage, categoryid, category, isActive, message} = this.state;
         
+        var catArray = categoryid.split(',');
+        let checkboxes = [];
+        var chk = 'false';
+        for(var i = 0; i< category.length; i++){
+            
+            if(catArray.indexOf(category[i]._id) > -1 ){
+                chk = 'true';
+            }
+            checkboxes.push(
+                <div key={category[i]._id} className="category_cls">
+                    <input type="checkbox" name="selectedcategory" id="selectedcategory" checked={chk} value={category[i]._id} onClick={e => this.handleChange(e, index)} ></input>   
+                    <label htmlFor={category[i]._id}>{category[i].categoryname}</label>             
+                </div>
+            );
+        }
+
         let imageDisp = [];
         if(blogimage === ''){
             imageDisp.push(
@@ -284,6 +329,17 @@ class Editblog extends Component {
                 </div>
                 <br/>
                 {imageDisp}
+
+                <div className="container comments-area remove-padding cat">
+                    <div className="row">
+                        <div className="col-4">
+                            <h3><strong>Assign Category</strong></h3>  
+                        </div>
+                        <div className="col-8">
+                            {checkboxes}
+                        </div>                    
+                    </div>
+                </div>
                
                 <div className="comments-area remove-padding">
                     <h3><strong>Seo Management</strong></h3>
@@ -323,7 +379,7 @@ class Editblog extends Component {
 
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Save</button>
                 <br/>
-                <a href="../blog-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
+                <a href="/admin/blog-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
             </form>
             </div>
         </section>      

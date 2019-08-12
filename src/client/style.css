@@ -210,3 +210,14 @@ ul.header li a {
   text-align: center;
   width: 100%;
 }
+.cat{
+  display: flex;
+}
+.category_cls{
+  display: flex;
+  float: left;
+  padding: 0 10px 10px 0;
+}
+.category_cls input{
+  margin: 5px 5px 0 0;
+}

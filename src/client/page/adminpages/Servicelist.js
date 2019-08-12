@@ -87,7 +87,7 @@ class Servicelist extends Component {
           status:services[i].isActive ? <p className="text-success">Published</p> : <p className="text-secondary">Draft</p>,
           created_at:<Moment format="YYYY-MM-DD HH:mm">{services[i].created_at}</Moment>,
           updated_at:<Moment format="YYYY-MM-DD HH:mm">{services[i].updated_at}</Moment>,
-          action:<div className="action-colmn"><a href={"./service/edit/"+services[i]._id} className="icon-space"><i class="fas fa-pencil-alt"></i></a>
+          action:<div className="action-colmn"><a href={"/admin/service/edit/"+services[i]._id} className="icon-space"><i class="fas fa-pencil-alt"></i></a>
           <a onClick={() => this.deleteService(services[i]._id)} className="icon-space"><i class="fas fa-trash-alt"></i></a></div>
         });
       }
@@ -108,7 +108,7 @@ class Servicelist extends Component {
                 />
                 <div className="progress-table-wrap">
                     <div className="progress-table">
-                        <a href="./addnewservice" className="genric-btn primary circle">ADD NEW</a>
+                        <a href="/admin/addnewservice" className="genric-btn primary circle">ADD NEW</a>
                     </div>
                 </div>
             </div>

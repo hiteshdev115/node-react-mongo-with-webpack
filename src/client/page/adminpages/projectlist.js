@@ -94,7 +94,7 @@ class projectlist extends Component {
           status:projects[i].isActive ? <p className="text-success">Published</p> : <p className="text-secondary">Draft</p>,
           created_at:<Moment format="YYYY-MM-DD HH:mm">{projects[i].created_at}</Moment>,
           updated_at:<Moment format="YYYY-MM-DD HH:mm">{projects[i].updated_at}</Moment>,
-          action:<div className="action-colmn"><a href={"./project/edit/"+projects[i]._id} className="icon-space"><i class="fas fa-pencil-alt"></i></a>
+          action:<div className="action-colmn"><a href={"/admin/project/edit/"+projects[i]._id} className="icon-space"><i class="fas fa-pencil-alt"></i></a>
           <a onClick={() => this.deleteproject(projects[i]._id)} className="icon-space"><i class="fas fa-trash-alt"></i></a></div>
            
         });
@@ -116,7 +116,7 @@ class projectlist extends Component {
                 />
                 <div className="progress-table-wrap">
                     <div className="progress-table">
-                        <a href="./addnewproject" className="genric-btn primary circle">ADD NEW</a>
+                        <a href="/admin/addnewproject" className="genric-btn primary circle">ADD NEW</a>
                     </div>
                 </div>
             </div>

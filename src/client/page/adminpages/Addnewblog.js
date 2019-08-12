@@ -19,15 +19,28 @@ class Addnewblog extends Component {
           metaDescription: '',
           follow: 'follow',
           index:'Yes',
+          category: [],
+          selectedcategory: [],
           adminLoginUser: JSON.parse(localStorage.getItem('admin-userdetails'))
         }; 
         this.onEditorChange = this.onEditorChange.bind( this ); 
-        this.radioChange = this.radioChange.bind(this);      
+        this.radioChange = this.radioChange.bind(this);  
+        this.handleChange = this.handleChange.bind( this );     
     }  
     toggleChange = () => {
         this.setState({
             isActive: !this.state.isActive,
         });
+    }
+
+    handleChange(e, index) {
+        let isChecked = e.target.checked;
+        if (isChecked == true){            
+            this.state.selectedcategory = this.state.selectedcategory.concat([e.target.value]);            
+        } else {            
+            this.state.selectedcategory = this.state.selectedcategory.filter(function(val) {return val!==e.target.value})
+        }
+        //console.log(this.state.selectedcategory);
     }
 
     radioChange(e) {
@@ -56,7 +69,20 @@ class Addnewblog extends Component {
             file: event.target.files[0],
           loaded: 0,
         })
-      }
+    }
+
+    componentWillMount=async() =>{    
+        fetch('http://localhost:3001/api/allcategory')
+         .then(response => response.json())
+         .then(data => {
+              this.setState({
+                isLoading: false,
+                category: data
+              })
+              //console.log(data);
+          })
+          .catch(error => this.setState({ error, isLoading: false }));  
+    }
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -76,6 +102,7 @@ class Addnewblog extends Component {
         formData.append('subtitle',this.state.subtitle);
         formData.append('description',this.state.description);
         formData.append('isActive',this.state.isActive);
+        formData.append('category',this.state.selectedcategory);
         formData.append('pageTitle',this.state.pageTitle);
         formData.append('metaTitle',this.state.metaTitle);
         formData.append('metaDescription',this.state.metaDescription);
@@ -94,7 +121,7 @@ class Addnewblog extends Component {
                 //console.log(result);
                 this.setState({ message: '' });
                 //var resultObject = JSON.parse(result.data.userData);
-                this.props.history.push('./blog-manage');
+                this.props.history.push('/admin/blog-manage/');
             })
           .catch((error) => {
             console.log('===Error=='+error);
@@ -143,6 +170,22 @@ class Addnewblog extends Component {
                 <input type="file" name="file" onChange={this.onChangeHandler}/>
                 <br/>
 
+                <div className="container comments-area remove-padding cat">
+                    <div className="row">
+                        <div className="col-4">
+                            <h3><strong>Assign Category</strong></h3>  
+                        </div>
+                        <div className="col-8">
+                            {this.state.category.map((cat, index) => (
+                                <div key={cat._id} className="category_cls">
+                                    <input type="checkbox" name="selectedcategory" id="selectedcategory" value={cat._id} onClick={e => this.handleChange(e, index)}></input>   
+                                    <label htmlFor={cat._id}>{cat.categoryname}</label>             
+                                </div>
+                            ))}
+                        </div>                    
+                    </div>
+                </div>
+
                 <div className="comments-area remove-padding">
                     <h3><strong>Seo Management</strong></h3>
                     <div className="row">
@@ -177,10 +220,11 @@ class Addnewblog extends Component {
                     </div>
                     
                 </div>
+                
                 <br/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Save</button>
                 <br/>
-                <a href="./blog-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
+                <a href="/admin/blog-manage/" className="btn btn-lg btn-primary btn-block">Back To List</a>
             </form>
             </div>
         </section>      

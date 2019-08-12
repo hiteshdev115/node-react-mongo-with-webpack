@@ -202,7 +202,7 @@ class Editservice extends Component {
         axios.put(url+`${params.serviceid}`, formData, config)
           .then((result) => {
                 this.setState({ message: '' });
-                this.props.history.push('../../service-manage');
+                this.props.history.push('/admin/service-manage');
             })
           .catch((error) => {
             //console.log('===Error=='+error);
@@ -299,7 +299,7 @@ class Editservice extends Component {
                 <br/> <br/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Save</button>
                 <br/>
-                <a href="../../service-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
+                <a href="/admin/service-manage" className="btn btn-lg btn-primary btn-block">Back To List</a>
             </form>
             </div>
         </section>      

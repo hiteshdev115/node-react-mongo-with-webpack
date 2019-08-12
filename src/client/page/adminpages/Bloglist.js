@@ -88,7 +88,7 @@ class Bloglist extends Component {
           status:blogs[i].isActive ? <p className="text-success">Published</p> : <p className="text-secondary">Draft</p>,
           created_at:<Moment format="YYYY-MM-DD HH:mm">{blogs[i].created_at}</Moment>,
           updated_at:<Moment format="YYYY-MM-DD HH:mm">{blogs[i].updated_at}</Moment>,
-          action:<div className="action-colmn"><a href={"./edit/"+blogs[i]._id} className="icon-space"><i className="fas fa-pencil-alt"></i></a>  
+          action:<div className="action-colmn"><a href={"/admin/edit/"+blogs[i]._id} className="icon-space"><i className="fas fa-pencil-alt"></i></a>  
           <a onClick={() => this.deleteBlog(blogs[i]._id)} className="icon-space"><i className="fas fa-trash-alt"></i></a></div>
         });
       }
@@ -109,7 +109,7 @@ class Bloglist extends Component {
                 />
                 <div className="progress-table-wrap">
                     <div className="progress-table">
-                        <a href="./addnewblog" className="genric-btn primary circle">ADD NEW</a>
+                        <a href="/admin/addnewblog" className="genric-btn primary circle">ADD NEW</a>
                     </div>
                 </div>
             </div>

@@ -39,9 +39,6 @@ app.use(function (req, res, next) {
 
 app.use(BodyParser.urlencoded({ extended: true }));
 
-
-
-
 //const MulterResizer = require('multer-resizer');
 
 var path = require("path"); //for upload
@@ -60,57 +57,6 @@ var storage = multer.diskStorage({
     }
 })
 
-/*const resizer = new MulterResizer({
-    
-    multer: multer({
-        storage: multer.diskStorage({
-            destination: function (req, file, callback) {
-                callback(null, appRoot.path + "/client/public/images")
-            },
-            filename: function (req, file, callback) {
-                //console.log(file);
-                callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-            }
-        })
-    }),
-    tasks: [
-        {
-            resize: {
-                width: 1920,
-                height: 1080,
-                suffix: 'resized-big',
-                format:'png'
-            }
-        },
-        {
-            resize: {
-                width: 100,
-                height: 100,
-                suffix: 'resized-small',
-                format:'png'
-            }
-        },
-        {
-            cover: {
-                width: 160,
-                height: 112,
-                suffix: 'thumbnail',
-                format:'png'
-            }
-        }
-    ]
-});*/
-
-/*var images = multer.diskStorage({
-  destination: function (req, file, callback) {
-      callback(null, appRoot.path + "/images")
-  },
-  filename: function (req, file, callback) {
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-  }
-});*/
-
-
 var upload = multer({
     storage: storage
 })
@@ -126,6 +72,7 @@ var user = require('./routes/userApi');
 var seo = require('./routes/seoApi'); 
 var cmspage = require('./routes/cmspageApi'); 
 var blog = require('./routes/blogApi'); 
+var category = require('./routes/categoryApi'); 
 var services = require('./routes/servicesApi');
 var project = require('./routes/projectApi'); 
 var login = require('./routes/login');
@@ -203,6 +150,13 @@ app.put('/api/:id/updateproject/:projectid', upload.single('projectimage'), proj
 app.delete("/api/deleteproject/:id/user/:userId", project.deleteproject);
 app.post("/api/project/removethumb/", project.removeThumb);
 app.get('/api/getLastSixproject', project.getLastSixProject); 
+
+app.get('/api/allcategory', category.getallcategory); 
+app.get('/api/getSinglecategory/:id', category.getSinglecategory); 
+app.get('/api/getSingleCategoryByName/:categoryname', category.getSinglecategoryByName); 
+app.post('/api/:id/addcategory/', category.insertcategory); 
+app.put('/api/:id/updatecategory/:categoryid', category.updatecategory);
+app.delete("/api/deletecategory/:id/user/:userId", category.deletecategory);
 
 app.set('port', process.env.PORT || 3001);
 /*app.listen(8080, () => {
