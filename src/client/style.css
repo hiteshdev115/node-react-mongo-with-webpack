@@ -221,3 +221,18 @@ ul.header li a {
 .category_cls input{
   margin: 5px 5px 0 0;
 }
+.categoryforeground{
+  background-color: #b62222;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  margin-bottom: 4px;
+  margin-left: 4px;
+}
+.errorMessage{
+  padding-top: 20px;
+  color: red;
+}
+.post-content-area .single-post .meta-details{
+  margin-top: 0;
+}

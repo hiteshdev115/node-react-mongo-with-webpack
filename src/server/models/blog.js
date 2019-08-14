@@ -19,7 +19,11 @@ var blogSchema = new Schema({
   metaDescription: String,
   follow:{ type: String, default: 'follow' },
   index:{ type: String, default: 'index' },
-  category: String,
+  blogcats: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Blogcats'
+  }],
+  viewCount: { type: Number, default: 1},
   created_at: Date,
   updated_at: Date
 });

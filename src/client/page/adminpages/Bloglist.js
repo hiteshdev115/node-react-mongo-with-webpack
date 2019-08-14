@@ -68,26 +68,31 @@ class Bloglist extends Component {
       { title: 'Title', keys:'title', prop: 'title', sortable: true, width:300  },
       { title: 'Blog Image', keys:'image', prop: 'blogimage' },
       { title: 'Status', keys:'status', prop: 'status', sortable: true, }, 
-      { title: 'Created At', keys:'createDate', prop: 'created_at', sortable: true, }, 
-      { title: 'Updated At', keys:'updateDate', prop: 'updated_at', sortable: true, },
+      { title: 'Category', keys:'category', prop: 'category', sortable: true, },
+      { title: 'Created At', keys:'createDate', prop: 'created_at', sortable: true, },       
       { title: 'Action', keys:'action', prop:'action'}
     ];
 
     const { blogs, isLoading } = this.state;
-        
+    //console.log(blogs);
     let dataTableValue = [];
     if(isLoading === true){
       dataTableValue.push(<div key="fail">Loading....</div>);
     } else {
       for(let i = 0; i< blogs.length; i++){
         //console.log(blogs[i].title);
+        var categoryName = '';
+        blogs[i].blogcats.map(cat => {
+          categoryName += cat.categoryname+', ';
+        });
+
         dataTableValue.push({
           id:i,
           title:blogs[i].title,
           blogimage:blogs[i].blogimage ? <img src={"/public/images/thumbnail_"+blogs[i].blogimage} alt="flag" width="100"></img> : <img src="/public/images/default-blog.jpg" alt="flag" width="100"></img>,
           status:blogs[i].isActive ? <p className="text-success">Published</p> : <p className="text-secondary">Draft</p>,
+          category: categoryName.substring(0, categoryName.length - 2),
           created_at:<Moment format="YYYY-MM-DD HH:mm">{blogs[i].created_at}</Moment>,
-          updated_at:<Moment format="YYYY-MM-DD HH:mm">{blogs[i].updated_at}</Moment>,
           action:<div className="action-colmn"><a href={"/admin/edit/"+blogs[i]._id} className="icon-space"><i className="fas fa-pencil-alt"></i></a>  
           <a onClick={() => this.deleteBlog(blogs[i]._id)} className="icon-space"><i className="fas fa-trash-alt"></i></a></div>
         });

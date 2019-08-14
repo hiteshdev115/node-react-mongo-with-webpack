@@ -27,7 +27,7 @@ class Portfolio extends Component {
                   isLoading: false,
                   projects: response.data
                 })
-                console.log(response.data);		
+                //console.log(response.data);		
         })
         .catch(error => this.setState({ error, isLoading: false }));  
   }

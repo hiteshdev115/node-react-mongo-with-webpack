@@ -178,7 +178,7 @@ class Addnewblog extends Component {
                         <div className="col-8">
                             {this.state.category.map((cat, index) => (
                                 <div key={cat._id} className="category_cls">
-                                    <input type="checkbox" name="selectedcategory" id="selectedcategory" value={cat._id} onClick={e => this.handleChange(e, index)}></input>   
+                                    <input type="checkbox" name="selectedcategory" id="selectedcategory" defaultChecked={cat.categoryname == 'Default' ? true : false} value={cat._id} onClick={e => this.handleChange(e, index)}></input>   
                                     <label htmlFor={cat._id}>{cat.categoryname}</label>             
                                 </div>
                             ))}

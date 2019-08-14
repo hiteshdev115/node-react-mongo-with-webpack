@@ -104,7 +104,7 @@ class Servicedetails extends Component {
             </div>
         </section>        
         {error ? <p>{error.message}</p> : null}
-        <section className="post-content-area single-post-area custom-position">
+        <section className="post-content-area single-post-area">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8 posts-list">

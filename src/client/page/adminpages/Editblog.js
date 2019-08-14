@@ -24,8 +24,9 @@ class Editblog extends Component {
             metaDescription: '',
             follow: 'follow',
             index:'Yes',
-            category:[],
+            categoryAll:[],
             selectedcategory: [],
+            //chk: true,
             adminLoginUser: JSON.parse(localStorage.getItem('admin-userdetails'))
         };   
         this.onChangeTitle = this.onChangeTitle.bind(this);
@@ -39,8 +40,25 @@ class Editblog extends Component {
         this.handleChange = this.handleChange.bind( this );
         //this.onChangeIndex = this.onChangeIndex.bind( this );
         this.radioChange = this.radioChange.bind(this);
-        this.handleChange = this.handleChange.bind( this );  
+        this.handleCheckboxChange = this.handleCheckboxChange.bind( this );  
+        
+        console.log('constructor');
         this.getAllCategory();
+        
+    }
+
+    getAllCategory=async() =>{ 
+        fetch('http://localhost:3001/api/allcategory')
+         .then(response => response.json())
+         .then(data => {
+              this.setState({
+                isLoading: false,
+                categoryAll: data                
+              });  
+              //console.log(data);       
+          })
+          .catch(error => this.setState({ error, isLoading: false }));  
+          //console.log(data);         
     }
 
     toggleChange = () => {        
@@ -49,7 +67,7 @@ class Editblog extends Component {
         });
     }
 
-    handleChange(e, index) {
+    handleCheckboxChange(e, i) {
         let isChecked = e.target.checked;
         if (isChecked == true){            
             this.state.selectedcategory = this.state.selectedcategory.concat([e.target.value]);            
@@ -123,19 +141,6 @@ class Editblog extends Component {
         });
       }
 
-    getAllCategory=async() =>{    
-        fetch('http://localhost:3001/api/allcategory')
-         .then(response => response.json())
-         .then(data => {
-              this.setState({
-                isLoading: false,
-                category: data
-              })
-              //console.log(data);
-          })
-          .catch(error => this.setState({ error, isLoading: false }));  
-    }
-
     componentDidMount(){
         const { match: {params} } = this.props;
         //console.log(this.props);
@@ -153,7 +158,7 @@ class Editblog extends Component {
             {
               indexVal = 'Yes';
             }
-            console.log('---From did mount-->'+indexVal);
+            //console.log('---From did mount-->'+indexVal);
             this.setState({ 
                 id:response.data._id,
                 title: response.data.title,
@@ -162,7 +167,7 @@ class Editblog extends Component {
                 description: response.data.description,
                 blogimage:response.data.blogimage,
                 isActive:active,
-                categoryid:response.data.category,
+                categoryid:response.data.blogcats,
                 pageTitle: response.data.pageTitle,
                 metaTitle: response.data.metaTitle,
                 metaDescription: response.data.metaDescription,
@@ -172,7 +177,10 @@ class Editblog extends Component {
              });
         })
         .catch(error => this.setState({ error, isLoading: false }));
+        //this.getAllCategory();
     }
+
+    
 
     unlinkThumb = () => {
         console.log('===Remove Thumb Action==>'+this.state.id);
@@ -195,7 +203,7 @@ class Editblog extends Component {
                 subtitle: response.data.subtitle,
                 description: response.data.description,
                 blogimage:'',
-                categoryid:response.data.category,
+                categoryid:response.data.blogcats,
                 pageTitle: response.data.pageTitle,
                 metaTitle: response.data.metaTitle,
                 metaDescription: response.data.metaDescription,
@@ -262,20 +270,20 @@ class Editblog extends Component {
       }
  
     render() {
-        const { blogimage, categoryid, category, isActive, message} = this.state;
+        const { blogimage, categoryid, categoryAll, isActive, message} = this.state;
         
-        var catArray = categoryid.split(',');
+        
         let checkboxes = [];
-        var chk = 'false';
-        for(var i = 0; i< category.length; i++){
-            
-            if(catArray.indexOf(category[i]._id) > -1 ){
-                chk = 'true';
+        for(var i = 0; i< categoryAll.length; i++){
+            var chk = false;
+            if(categoryid && categoryid.indexOf(categoryAll[i]._id) > -1 ){
+                chk = true;
+                this.state.selectedcategory = this.state.selectedcategory.concat(categoryAll[i]._id); 
             }
             checkboxes.push(
-                <div key={category[i]._id} className="category_cls">
-                    <input type="checkbox" name="selectedcategory" id="selectedcategory" checked={chk} value={category[i]._id} onClick={e => this.handleChange(e, index)} ></input>   
-                    <label htmlFor={category[i]._id}>{category[i].categoryname}</label>             
+                <div key={categoryAll[i]._id} className="category_cls">
+                    <input type="checkbox" name="selectedcategory" id="selectedcategory" defaultChecked={chk} value={categoryAll[i]._id} onClick={e => this.handleCheckboxChange(e, i)} ></input>   
+                    <label htmlFor={categoryAll[i]._id}>{categoryAll[i].categoryname}</label>             
                 </div>
             );
         }

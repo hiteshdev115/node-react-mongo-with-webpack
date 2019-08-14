@@ -2,14 +2,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var blogcategorySchema = new Schema({
+var blogcatsSchema = new Schema({
   categoryname: { type: String, required: true, unique: true },
   isActive: Boolean,
   created_at: Date,
   updated_at: Date
 });
 
-blogcategorySchema.pre('save', function(next) {
+blogcatsSchema.pre('save', function(next) {
     // get the current date
     var currentDate = new Date();
     // change the updated_at field to current date
@@ -22,7 +22,7 @@ blogcategorySchema.pre('save', function(next) {
 
 // the schema is useless so far
 // we need to create a model using it
-var blogcategory = mongoose.model('blogcategory', blogcategorySchema);
+var Blogcats = mongoose.model('Blogcats', blogcatsSchema);
 
 // make this available to our users in our Node applications
-module.exports = blogcategory;
+module.exports = Blogcats;

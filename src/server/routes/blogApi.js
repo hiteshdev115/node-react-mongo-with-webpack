@@ -3,6 +3,7 @@ var appRoot = require('app-root-path');
 var fs = require('fs');
 var blogModel = require('../models/blog');
 var userModel = require('../models/user');
+var categoryModel = require('../models/blogcats');
 var resizer = require('node-image-resizer');
 const setup = { 
     all: {
@@ -33,10 +34,11 @@ const setup = {
 
 exports.getallblog = async function(req, res)
 {
-    console.log('all seo action');
+    console.log('all blog action');
+
     try {
         var sortDesc = { created_at: -1 };
-        var result = await blogModel.find().sort(sortDesc).exec();
+        var result = await blogModel.find().populate('author').populate('blogcats').sort(sortDesc).exec();
         //console.log(result);
         res.send(result);
     } catch (error) {
@@ -46,7 +48,7 @@ exports.getallblog = async function(req, res)
 
 exports.getSingleblog = async function(req, res)
 {
-    console.log('all blog action');
+    console.log('Single blog action');
     try {
         var blog = await blogModel.findById(req.params.id).exec();
         res.send(blog);
@@ -71,15 +73,38 @@ exports.getLastThreeBlog = async function(req, res)
 
 exports.getSingleblogByName = async function(req, res)
 {
-    console.log('all blog action');
+    console.log('by name blog action');
     try {
-        var blog = await blogModel.findOne({blogname: req.params.blogname}).populate('author').exec();
+        var blog = await blogModel.findOne({blogname: req.params.blogname}).populate('author').populate('blogcats').exec();
+        var viewcnt = blog.viewCount + 1;
+        console.log(viewcnt);
+        blog.set({viewCount : viewcnt});
+        blog.save();
+
         if(blog){
             res.status(200).send(blog);
         } else {
             res.status(200).send({ message: 'Sorry, We can not found any data from our record!' });
         }
     } catch (error) {
+        res.status(500).send({ message: 'No data found!' });
+    }
+};
+
+exports.getSearchByCatName  = async function(req, res)
+{
+    console.log('search by category name action');
+    try {
+        var singleCategory = await categoryModel.findOne({categoryname: req.params.categoryname}).exec();
+        var searchblog = await blogModel.find({blogcats: singleCategory._id}).populate('author').populate('blogcats').exec();
+        //console.log(searchblog);
+        if(searchblog.length > 0){
+            res.status(200).send(searchblog);
+        } else {
+            res.status(400).send({ "code": 400, message: 'Sorry, We can not found any data from our record!' });
+        }
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: 'No data found!' });
     }
 };
@@ -189,7 +214,6 @@ exports.insertblog = async function(req, res)
 exports.updateblog = async function(req, res)
 {
     console.log("update page action....");
-    
     try {
         
         if(req.file !== undefined){
@@ -222,7 +246,35 @@ exports.updateblog = async function(req, res)
         blog.set(req.body);
         
         var result = await blog.save();
+        //console.log(blog.blogcats);
+        var catArray = req.body.category.split(",");
         
+        //Remove Old category from blogcats field in bolg
+        blogModel.findByIdAndUpdate(blogId,
+            {$set: {blogcats: []}},
+            {safe: true, upsert: true},
+            function(err, doc) {
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('update....');
+                }
+            }
+        );
+        //Update New category into blogcats field in bolg
+        var UpdatedCategory = await categoryModel.find({_id:{$in:catArray}}).exec();
+        blogModel.findByIdAndUpdate(blogId,
+            {$push: {blogcats: UpdatedCategory}},
+            {safe: true, upsert: true},
+            function(err, doc) {
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('update....');
+                }
+            }
+        );
+
         res.send(result);
     } catch (error) {
         console.log(error);

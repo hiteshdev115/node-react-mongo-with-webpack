@@ -52,6 +52,8 @@ import AdminCategoryListComponent from './page/adminpages/Categorylist';
 import AdminAddNewCategoryComponent from './page/adminpages/Addnewcategory';
 import AdminEditCategoryComponent from './page/adminpages/Editcategory';
 
+import SearchBlogComponent from './page/Searchblog';
+
 import AdminDatatableComponent from './page/adminpages/DatatablePage';
 
 
@@ -65,6 +67,7 @@ class App extends Component {
             <Route exact path='/' component={HomeComponent}></Route>
             <Route exact path='/blog/' component={BlogComponent}></Route>
             <Route exact path='/blog/:blogname/' component={BlogDetailsComponent}></Route>
+            <Route exact path='/blog/searchbycategory/:categoryname/' component={SearchBlogComponent}></Route>
             <Route exact path='/services/' component={ServicesComponent}></Route>
             <Route exact path='/service/:servicesname/' component={ServiceDetailsComponent}></Route>
             <Route exact path='/portfolio/' component={PortfolioComponent}></Route>    
@@ -91,6 +94,7 @@ class App extends Component {
             <Route exact path='/admin/demopage/' component={AdminDatatableComponent}></Route>
             <Route exact path='/admin/category-manage/' component={AdminCategoryListComponent}></Route>
             <Route exact path='/admin/addnewcategory/' component={AdminAddNewCategoryComponent}></Route>
+            
             <Route exact path='/admin/editcategory/:categoryid/' component={AdminEditCategoryComponent}></Route>
           </Switch>
           <FooterComponent></FooterComponent>

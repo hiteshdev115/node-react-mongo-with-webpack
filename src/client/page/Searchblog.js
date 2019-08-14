@@ -5,16 +5,19 @@ import dateFormat from 'dateformat';
 import { Facebook, Twitter, LinkedIn } from 'react-sharingbuttons';
 import 'react-sharingbuttons/dist/main.css';
 import MetaTags from 'react-meta-tags';
+import LazyLoad from 'react-lazyload';
 //import config from 'react-global-configuration';
 
-class Blogdetails extends Component {
+class Searchblog extends Component {
     
 
   constructor(props) {
     super(props)
     this.state = {
         blogs: [],
+        searchblogs:[],
         allCategory:[],
+        
         id: '',
         title: '',
         subtitle:'',
@@ -30,7 +33,9 @@ class Blogdetails extends Component {
         follow:'',
         index:'',
         error: null,
-        isLoading: true
+        isLoading: true,
+        loadBlog:true,
+        message:''
     }
     this.getRelatesPost();
     this.getAllCategory();
@@ -40,40 +45,35 @@ class Blogdetails extends Component {
     fetch('http://localhost:3001/api/allcategory')
      .then(response => response.json())
      .then(data => {
-          this.setState({
-            isLoading: false,
+          this.setState({            
             allCategory: data
           })
           //console.log(data);
       })
-      .catch(error => this.setState({ error, isLoading: false }));  
+      .catch(error => this.setState({ error }));  
   }
 
   componentDidMount() {
     const { match: {params} } = this.props;
-    const url = 'http://localhost:3001/api/getSingleBlogByName/';
-    axios.get(url+`${params.blogname}`)
+    const url = 'http://localhost:3001/api/blog/searchbycategory/';
+    axios.get(url+`${params.categoryname}`)
         .then(response => {
             this.setState({ 
                 isLoading: false,
-                id:response.data._id,
-                title: response.data.title,
-                subtitle: response.data.subtitle,
-                blogname: response.data.blogname,
-                description: response.data.description,
-                created_at: response.data.created_at,
-                blogimage:response.data.blogimage,
-                category: response.data.blogcats,
-                authorName:response.data.author[0].name,
-                pageTitle:response.data.pageTitle,
-                metaTitle:response.data.metaTitle,
-                metaDescription:response.data.metaDescription,
-                follow:response.data.follow,
-                index:response.data.index
+                searchblogs:response.data
+                
             });
-            //console.log(response);
+            //console.log(response.data);
         })
-        .catch(error => this.setState({ error, isLoading: false }));
+        .catch(error => {
+            //console.log(error.response);
+            if(error.response.status == 400){
+                this.setState({ message: error.response.data.message, isLoading: true });    
+            } else {
+                this.setState({ message: "Something went wrong!", isLoading: true });   
+            }
+            
+        });
        
   }
   
@@ -83,53 +83,51 @@ class Blogdetails extends Component {
     axios.get(url+`${params.blogname}`)
         .then(response => {
                 this.setState({
-                  isLoading: false,
+                  loadBlog: false,
                   blogs: response.data
                 })
                 //console.log(this.state.blogs);
         })
-        .catch(error => this.setState({ error, isLoading: false }));  
+        .catch(error => {
+            this.setState({ error, isLoading: true })
+        });  
+  }
+
+  fnum(x) {
+    if(isNaN(x)) return x;
+  
+    if(x < 9999) {
+      return x;
+    }
+  
+    if(x < 1000000) {
+      return Math.round(x/1000) + "K";
+    }
+    if( x < 10000000) {
+      return (x/1000000).toFixed(2) + "M";
+    }
+  
+    if(x < 1000000000) {
+      return Math.round((x/1000000)) + "M";
+    }
+  
+    if(x < 1000000000000) {
+      return Math.round((x/1000000000)) + "B";
+    }
+  
+    return "1T+";
   }
   
   render() {
-    const url = window.location.href;
-    const shareText = 'Lightweight social sharing buttons for React. No tracking. Just fun.';
-
-    const facbookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-    const twitterUrl = `https://twitter.com/home?status=${url}`;
-    const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}`;
-
-    const buttonsWrapperStyles = {
-      padding: 50,
-      marginTop: 75,
-      marginBottom: 100,
-    };
-    const { isLoading, blogs, error, title, allCategory, subtitle, created_at, description, blogimage, category, authorName, pageTitle, metaTitle, metaDescription, follow, index } = this.state;
-    //console.log(allCategory);
-    var catName = '';
-    category.map(cat => {
-        //console.log(cat.categoryname);
-        catName += "<li class='categoryforeground'>"+cat.categoryname+"</li>";
-    });
-
+    const { isLoading, loadBlog, blogs, error, message, allCategory, searchblogs } = this.state;
+    //console.log(message);
     var cateItem = '';
     allCategory.map(item => {
         
         cateItem += "<li><a href='/blog/searchbycategory/"+item.categoryname+"' className='d-flex justify-content-between'><p>"+item.categoryname+"</p></a></li>";
     })
-
     return (        
-      <div>
-        <MetaTags>
-            <title>{pageTitle}</title>
-            <meta property="og:type" content="website" />
-            <meta property="og:site_name" content="cleversamurai" />
-            <meta name="description"  content={metaDescription}/>
-            <meta property="og:title" content={metaTitle} />
-            <meta property="og:image" content={"/public/images/"+blogimage} />
-            <meta property="og:url" content={window.location.href} />
-            <meta name="ROBOTS" content={index+', '+follow} />
-        </MetaTags>
+      <div> 
         <section className="relative about-banner"> 
             &bnsp;
         </section>
@@ -138,31 +136,46 @@ class Blogdetails extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8 posts-list">
-                        <div className="single-post row">
-                            <div className="col-lg-12">
-                                <div className="feature-img">
-                                    <img className="img-fluid" src={"/public/images/"+blogimage} alt=""></img>
-                                </div>                                  
-                            </div>
-                            <div className="col-lg-3  col-md-3 meta-details">
-                                <ul className="tags">
-                                    {parse(catName)}                                    
-                                </ul>
-                                <div className="user-details row">
-                                    <p className="user-name col-lg-12 col-md-12 col-6"><a href="#">{authorName}</a> <span className="lnr lnr-user"></span></p>
-                                    <p className="date col-lg-12 col-md-12 col-6"><a href="#">{dateFormat(created_at, "mediumDate")}</a> <span className="lnr lnr-calendar-full"></span></p>
-                                    <ul className="social-links col-lg-12 col-md-12 col-6">
-                                        <li><a href={facbookUrl} target="_blank"> <i className="fab fa-facebook"></i></a></li>
-                                        <li><a href={twitterUrl} target="_blank"> <i className="fab fa-twitter"></i></a></li>
-                                        <li><a href={linkedinUrl} target="_blank"> <i className="fab fa-linkedin"></i></a></li>
-                                    </ul>	                                                                             
-                                </div>
-                            </div>
-                            <div className="col-lg-9 col-md-9">
-                            <h3 className="mt-20 mb-20">{subtitle}</h3>
-                                {parse(description)}
-                            </div>
-                        </div>
+                    {isLoading == false ? (
+                        searchblogs.map(sblog => {
+                            const { _id, title, created_at, blogname, blogcats, viewCount, author, blogimage } = sblog;
+                                if(blogimage){
+                                    var thumb_image = 'big_'+blogimage;
+                                } else {
+                                    var thumb_image = 'default.png';
+                                }
+                                var catName = '';
+                                blogcats.map(cat => {
+                                    //console.log(cat.categoryname);
+                                    catName += "<li class='categoryforeground'>"+cat.categoryname+"</li>";
+                                });
+                                return (
+                                    <LazyLoad key={_id} height={100} offset={[-100, 100]}>
+                                        <div className="single-post row" key={_id}>
+                                            <div className="col-lg-3  col-md-3 meta-details">
+                                                <ul className="tags">
+                                                    {parse(catName)} 
+                                                </ul>
+                                                <div className="user-details row">
+                                                    <p className="user-name col-lg-12 col-md-12 col-6"><a href="#">{author[0].name}</a> <span className="lnr lnr-user"></span></p>
+                                                    <p className="date col-lg-12 col-md-12 col-6"><a href="#">{dateFormat(created_at, "mediumDate")}</a> <span className="lnr lnr-calendar-full"></span></p>
+                                                    <p className="view col-lg-12 col-md-12 col-6"><a href="#">{this.fnum(viewCount)} Views</a> <span className="lnr lnr-eye"></span></p>                                                    
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-9 col-md-9 ">
+                                                <div className="feature-img">
+                                                    <img className="img-fluid" src={"/public/images/"+thumb_image} alt={title}></img>
+                                                </div>
+                                                <a className="posts-title" href={"/blog/"+blogname}><h3>{title}</h3></a>
+                                                <a href={"/blog/"+blogname} className="primary-btn new">View More</a>
+                                            </div>
+                                        </div>
+                                    </LazyLoad>
+                                );
+                        }) 
+                    ) : (
+                    <h3 className="errorMessage">{message}</h3>
+                    )}                        
                     </div>
 
                     <div className="col-lg-4 sidebar-widgets">
@@ -170,7 +183,7 @@ class Blogdetails extends Component {
                             <div className="single-sidebar-widget popular-post-widget">
                                 <h4 className="popular-title">Popular Posts</h4>
                                 <div className="popular-post-list">
-                                    {!isLoading ? (
+                                    {loadBlog == false ? (
                                         blogs.map(blog => {
                                             const { _id, title, created_at, blogname, blogimage } = blog;
                                                 if(blogimage){
@@ -212,4 +225,4 @@ class Blogdetails extends Component {
   }
 }
  
-export default Blogdetails;
+export default Searchblog;

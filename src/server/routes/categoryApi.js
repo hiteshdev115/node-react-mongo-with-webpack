@@ -1,4 +1,5 @@
-var categoryModel = require('../models/blogcategory');
+var categoryModel = require('../models/blogcats');
+var blogModel = require('../models/blog');
 
 exports.getallcategory = async function(req, res)
 {
@@ -53,8 +54,7 @@ exports.insertcategory = async function(req, res)
             res.send(result);
         } else {
             res.status(401).send({ "code": 401, message: 'You are unauthorized' });
-        }
-        
+        }        
     } catch (error) {
         //console.log(error.code);
         if(error.code == 11000){
@@ -95,6 +95,22 @@ exports.deletecategory = async function(req, res)
     console.log('Delete category Action');
     try {
         var result = await categoryModel.deleteOne({ _id: req.params.id }).exec();
+        //Remove category from reference table Ex Blog
+        var allBlog = await blogModel.find().exec();
+        allBlog.map(cat => {
+            //console.log(cat.blogcats);
+            blogModel.findByIdAndUpdate(cat._id,
+                {$pull: {blogcats: req.params.id}},
+                {safe: true, upsert: true},
+                function(err, doc) {
+                    if(err){
+                       // console.log(err);
+                    }else{
+                        //console.log('Removed From Blog--'+req.params.id);
+                    }
+                }
+            );
+        });
         res.status(200).send({ message: 'You are deleted successfully' });
     } catch (error) {
         console.log(error);

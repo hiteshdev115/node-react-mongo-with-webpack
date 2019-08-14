@@ -111,35 +111,31 @@ class Contactus extends Component {
 							</div>														
 						</div>
 						<div className="col-lg-8">
-                        {successmessage ? <div className="alert alert-warning alert-dismissible" role="alert">
-                            { successmessage }
-                        </div> : ''
-                        }
-							<form className="form-area contact-form text-right" id="contactUs" onSubmit={this.onSubmit}>
-								<div className="row">	
-									<div className="col-lg-6 form-group">
-										<input name="customername" placeholder="Enter your name" onChange={this.onChange} className="common-input mb-20 form-control" required type="text" value={customername} />
-										<input name="email" placeholder="Enter email address" onChange={this.onChange} pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" className="common-input mb-20 form-control" value={email} required type="email"/>
-										<input name="subject" placeholder="Enter subject" onChange={this.onChange} className="common-input mb-20 form-control" required value={subject} type="text"/>
-        							</div>
-									<div className="col-lg-6 form-group">
-										<textarea className="common-textarea form-control" name="message" onChange={this.onChange} placeholder="Enter Messege" required value={message} />				
-									</div>
-									<div className="col-lg-12">
-										<div className="alert-msg"></div>
-										<button className="genric-btn primary" type="submit">Send Message</button>											
-									</div>
-								</div>
-							</form>	
-						</div>
-                    </div>
-                    <div className="row">
-                        <div className="mapouter">
-                            <div className="gmap_canvas">
-                                <iframe width="1140" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=clever%20samurai&t=&z=17&ie=UTF8&iwloc=&output=embed" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0"></iframe>
-                            </div>
+                {successmessage ? <div className="alert alert-warning alert-dismissible" role="alert">
+                    { successmessage }
+                </div> : ''
+                }
+                <form className="form-area contact-form text-right" id="contactUs" onSubmit={this.onSubmit}>
+                  <div className="row">	
+                    <div className="col-lg-6 form-group">
+                      <input name="customername" placeholder="Enter your name" onChange={this.onChange} className="common-input mb-20 form-control" required type="text" value={customername} />
+                      <input name="email" placeholder="Enter email address" onChange={this.onChange} pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" className="common-input mb-20 form-control" value={email} required type="email"/>
+                      <input name="subject" placeholder="Enter subject" onChange={this.onChange} className="common-input mb-20 form-control" required value={subject} type="text"/>
                         </div>
+                    <div className="col-lg-6 form-group">
+                      <textarea className="common-textarea form-control" name="message" onChange={this.onChange} placeholder="Enter Messege" required value={message} />				
                     </div>
+                    <div className="col-lg-12">
+                      <div className="alert-msg"></div>
+                      <button className="genric-btn primary" type="submit">Send Message</button>											
+                    </div>
+                  </div>
+                </form>	
+						</div>
+          </div>
+          <div className="row">
+            <iframe width="1140" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=clever%20samurai&t=&z=17&ie=UTF8&iwloc=&output=embed" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0"></iframe>
+          </div>
 				</div>	
 			</section>
       </div>

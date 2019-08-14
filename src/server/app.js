@@ -102,6 +102,7 @@ app.delete("/api/deletepage/:id/user/:userId", cmspage.deletepage);
 app.get('/api/allblog', blog.getallblog); 
 app.get('/api/getSingleblog/:id', blog.getSingleblog); 
 app.get('/api/blog/getRandomBlog/:blogname', blog.getRandomblog); 
+app.get('/api/blog/searchbycategory/:categoryname', blog.getSearchByCatName); 
 app.get('/api/getSingleBlogByName/:blogname', blog.getSingleblogByName); 
 app.post('/api/:id/addblog', upload.single('blogimage'), blog.insertblog); 
 app.post('/api/:id/addblogwithoutimage', upload.single('blogimage'), blog.insertblog);//For Add without image

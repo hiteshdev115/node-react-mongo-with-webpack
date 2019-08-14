@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ShowMoreText from 'react-show-more-text'; 
 import parse from 'html-react-parser';
-
+import dateFormat from 'dateformat';
 
 //import config from 'react-global-configuration';
 //import axios from 'axios';
@@ -35,15 +35,36 @@ class Blog extends Component {
       )
       .catch(error => this.setState({ error, isLoading: false }));
   }
-
+   
+  fnum(x) {
+    if(isNaN(x)) return x;
   
+    if(x < 9999) {
+      return x;
+    }
   
-    
+    if(x < 1000000) {
+      return Math.round(x/1000) + "K";
+    }
+    if( x < 10000000) {
+      return (x/1000000).toFixed(2) + "M";
+    }
+  
+    if(x < 1000000000) {
+      return Math.round((x/1000000)) + "M";
+    }
+  
+    if(x < 1000000000000) {
+      return Math.round((x/1000000000)) + "B";
+    }
+  
+    return "1T+";
+  }
   
   render() {    
     
     const { blogs, error, isLoading } = this.state;   
-    
+    //console.log(blogs);
     return (
       <div>     
           <Seo/>
@@ -130,16 +151,23 @@ class Blog extends Component {
                     
                       {!isLoading ? (
                         blogs.map(blog => {
-                          const { _id, title, blogname, description, blogimage } = blog;
+                          const { _id, title, blogname, blogcats, author, description, viewCount, blogimage,created_at } = blog;
+                          var catName = '';
+                          blogcats.map(cat => {
+                              //console.log(cat.categoryname);
+                              catName += "<li class='categoryforeground'>"+cat.categoryname+"</li>";
+                          });
                           return (
                             <LazyLoad key={_id} height={100} offset={[-100, 100]}>
                               <div className="single-post row" key={_id}>
                                 <div className="col-lg-3  col-md-3 meta-details">
+                                  <ul className="tags">
+                                      {parse(catName)}                                    
+                                  </ul>
                                   <div className="user-details row">
-                                    <p className="user-name col-lg-12 col-md-12 col-6"><a href="#">Mark wiens</a> <span className="lnr lnr-user"></span></p>
-                                    <p className="date col-lg-12 col-md-12 col-6"><a href="#">12 Dec, 2017</a> <span className="lnr lnr-calendar-full"></span></p>
-                                    <p className="view col-lg-12 col-md-12 col-6"><a href="#">1.2M Views</a> <span className="lnr lnr-eye"></span></p>
-                                    <p className="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span className="lnr lnr-bubble"></span></p>						
+                                    <p className="user-name col-lg-12 col-md-12 col-6"><a href="#">{author[0].name}</a> <span className="lnr lnr-user"></span></p>
+                                    <p className="date col-lg-12 col-md-12 col-6"><a href="#">{dateFormat(created_at, "mediumDate")}</a> <span className="lnr lnr-calendar-full"></span></p>
+                                    <p className="view col-lg-12 col-md-12 col-6"><a href="#">{this.fnum(viewCount)} Views</a> <span className="lnr lnr-eye"></span></p>                                    
                                   </div>
                                 </div>
                                 <div className="col-lg-9 col-md-9 ">
@@ -152,14 +180,13 @@ class Blog extends Component {
                                   <div className="excert">
                                     <ShowMoreText
                                         lines={3}
-                                        more='Show more'
-                                        less='Show less'
+                                        more=''
+                                        less= ''
                                         anchorClass=''>
                                         {parse(description)}
                                     </ShowMoreText>
                                   </div>
-                                  
-                                  {/*<a href="" className="primary-btn">View More</a>*/}
+                                  <a href={"/blog/"+blogname} className="primary-btn new">View More</a>
                                 </div>
                               </div>
                             </LazyLoad>

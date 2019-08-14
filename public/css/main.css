@@ -2491,6 +2491,15 @@ body.mobile-nav-active #mobile-nav-toggle {
     margin-right: auto;
     display: block;
   }
+  .overlay img{
+    width: 100%;
+  }
+  .about-banner{
+    background: unset;
+  }
+  .about-content h1{
+    font-size: 28px!important;
+  }
 }
 
 /*-------- End Banner Area ------------*/
@@ -3043,7 +3052,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 @media (max-width: 767px) {
   .about-content {
-    margin-top: 70px;
+    margin-top: 20px;
+    padding: 90px 0px 50px 0;
+  }
+  .single-post-area{
+    padding-top: 0!important;
   }
 }
 
@@ -3543,8 +3556,8 @@ dl.accordion.time-line:before {
 }
 
 .post-content-area .single-post .primary-btn {
-  background: #fff !important;
-  color: #222 !important;
+  background: #8490ff !important;
+  color: #fff !important;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -3553,7 +3566,7 @@ dl.accordion.time-line:before {
 }
 
 .post-content-area .single-post .primary-btn:hover {
-  background: #8490ff !important;
+  background: #b62222 !important;
   color: #fff !important;
 }
 

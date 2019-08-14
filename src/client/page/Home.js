@@ -63,7 +63,7 @@ class Home extends Component {
 					  isLoading: false,
 					  blogs: response.data
 					})
-					console.log(response.data);		
+					//console.log(response.data);		
 			})
 			.catch(error => this.setState({ error, isLoading: false }));  
 	}
@@ -76,7 +76,7 @@ class Home extends Component {
 					  isLoading: false,
 					  projects: response.data
 					})
-					console.log(response.data);		
+					//console.log(response.data);		
 			})
 			.catch(error => this.setState({ error, isLoading: false }));  
 	}
