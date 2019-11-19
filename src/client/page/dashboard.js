@@ -9,13 +9,13 @@ class Dashboard extends Component {
 
 	checkLoginAdmin(){
 		this.state = {
-			loginUser: JSON.parse(localStorage.getItem('userdetails')),
-			adminLoginUser: JSON.parse(localStorage.getItem('admin-userdetails'))
+			loginUser: localStorage.getItem('userid'),
+			adminLoginUser: localStorage.getItem('adminuserid')
 		};
-		if(this.state.loginUser === null){
+		if(this.state.loginUser){
 			//open login screen
 			console.log('nullll');
-			if(this.state.adminLoginUser !== null) {
+			if(this.state.adminLoginUser) {
 				console.log('else if');
 				this.props.history.push('/admin/dashboard');
 			} else {
@@ -24,7 +24,7 @@ class Dashboard extends Component {
 			}
 		} else {
 			console.log('push else');
-			if(this.state.adminLoginUser !== null && window.location.href.indexOf("admin") > -1) {
+			if(this.state.adminLoginUser && window.location.href.indexOf("admin") > -1) {
 				this.props.history.push('/admin/dashboard');
 			} else {
 				this.props.history.push('/login');

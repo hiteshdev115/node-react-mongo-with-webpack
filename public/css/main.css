@@ -2497,9 +2497,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   .about-banner{
     background: unset;
   }
-  .about-content h1{
-    font-size: 28px!important;
-  }
+
 }
 
 /*-------- End Banner Area ------------*/
@@ -3045,15 +3043,20 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .about-content {
-  margin-top: 70px;
+  /*margin-top: 70px;
   padding: 90px 0px;
+  */
+  position: absolute;
   text-align: center;
 }
 
+
+
 @media (max-width: 767px) {
   .about-content {
-    margin-top: 20px;
-    padding: 90px 0px 50px 0;
+    /*margin-top: 20px;
+    padding: 90px 0px 50px 0;*/
+    text-align: center;
   }
   .single-post-area{
     padding-top: 0!important;
@@ -3063,6 +3066,10 @@ body.mobile-nav-active #mobile-nav-toggle {
 .about-content h1 {
   font-size: 48px;
   font-weight: 600;
+  width: fit-content;
+  padding: 0 40px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .about-content a {

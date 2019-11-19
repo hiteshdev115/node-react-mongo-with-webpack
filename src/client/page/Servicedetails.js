@@ -92,10 +92,12 @@ class Servicedetails extends Component {
             <meta name="ROBOTS" content={index+', '+follow} />
         </MetaTags>
         <section className="relative about-banner">	
-            <div className="overlay overlay-bg"><img src={"/public/images/"+serviceimage} alt={title}></img></div>
+        
             <div className="container">				
                 <div className="row d-flex align-items-center justify-content-center">
+                <img src={"/public/images/"+serviceimage} alt={title}></img>
                     <div className="about-content col-lg-12">
+                    
                         <h1 className="text-white back">
                             {title}			
                         </h1>

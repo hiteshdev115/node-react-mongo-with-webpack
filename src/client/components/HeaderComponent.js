@@ -5,21 +5,33 @@ import axios from 'axios';
 
 class Header extends Component {
   
+  constructor(props) {
+    super(props)
+    this.state = {
+      adminLoginUser:[],
+      loginUser:[],
+      isLoading: true
+    }
+  }
+
+
   logoutAdmin() {
     localStorage.removeItem('admin-jwtToken');
-    localStorage.removeItem('admin-userdetails');
+    localStorage.removeItem('adminuserid');
     window.location.href="/login";
   }
   logoutUser() {
     localStorage.removeItem('jwtToken');
-    localStorage.removeItem('userdetails');
+    localStorage.removeItem('userid');
     window.location.href="/login";
   }
 
   componentDidMount()
   {
-    this.fetchAllServicesForMenu();
+    this.fetchAllServicesForMenu(localStorage.getItem('userdetails'));
+    this.loginuserdata(localStorage.getItem('adminuserid'), localStorage.getItem('admin-jwtToken'),localStorage.getItem('userid'), localStorage.getItem('admin-jwtToken'));
   }
+  
 
   fetchAllServicesForMenu = () => {
 		const url = 'http://localhost:3001/api/allservices';
@@ -32,36 +44,66 @@ class Header extends Component {
 					//console.log(response.data);		
 			})
 			.catch(error => this.setState({ error, isLoading: false }));  
-	}
+  }
+  
+  
+  loginuserdata(adminUid, adminToekn, uid, userToken){
+    //console.log(adminUid);
+    if(adminUid)
+    {
+      const url = 'http://localhost:3001/api/authuser';
+      axios.post(url, { adminUid })
+        .then(response => {
+            this.setState({
+              isLoading: false,
+              adminLoginUser: response.data.logininfo
+            })
+            //console.log(response.data);		
+        })
+        .catch(error => this.setState({ error, isLoading: false }));  
+    }
+    if(uid){
+      const url = 'http://localhost:3001/api/authuser';
+      axios.post(url, { uid })
+        .then(response => {
+            this.setState({
+              isLoading: false,
+              loginUser: response.data.logininfo
+            })
+            console.log(response.data.logininfo);		
+        })
+        .catch(error => this.setState({ error, isLoading: false }));  
+    }
+  }
 
   render() {
-    this.state = {
-      loginUser: JSON.parse(localStorage.getItem('userdetails')),
-      adminLoginUser: JSON.parse(localStorage.getItem('admin-userdetails'))
-    }
     
+      
     var username = '';
     var isAdmin = '';
     var isAdminUser = false;
     var adminusername = '';
     
-    if(this.state.loginUser === null){
+    if(this.state.loginUser == null){
       username = '';
     } else {
-      username = this.state.loginUser.name;
-      isAdmin = this.state.loginUser.admin;
+      username = this.state.loginUser['name'];
+      isAdmin = this.state.loginUser['admin'];
+      console.log("Username ==>"+username);
     }
     
-    if(this.state.adminLoginUser === null){ 
+    if(this.state.adminLoginUser == null){ 
       adminusername = '';
     } else {
-      adminusername = this.state.adminLoginUser.name;
-      isAdminUser = this.state.adminLoginUser.admin;
+      //console.log(this.state.adminLoginUser['admin']);
+      adminusername = this.state.adminLoginUser['name'];
+      isAdminUser = this.state.adminLoginUser['admin'];
+      //console.log('===='+adminusername);
     }
     
     if(isAdmin === true){
       if(window.location.href.indexOf("admin") > -1){
-        //console.log('admin');
+       // console.log('admin');
         
         return (
           <header id="header">
@@ -102,7 +144,7 @@ class Header extends Component {
       }
       else{
         let loginUserData = [];
-        
+        console.log('user header');
         if(isAdmin === false){
           if(username !== ''){
             
@@ -144,11 +186,12 @@ class Header extends Component {
       }
       
     } else {
-     // console.log('main else hp'+isAdminUser);
+      //console.log('main else hp'+isAdminUser);
       
-      if(isAdminUser === true){
-        //console.log('It is Admin user');
+      if(isAdminUser == true){
+        
         if(window.location.href.indexOf("admin") > -1){
+          //console.log('It is Admin user');
           return (
             <header id="header">
             <div className="container main-menu">
@@ -171,7 +214,6 @@ class Header extends Component {
                     <li><Link to="/admin/contactus-list/"> Inquiry List </Link></li>
                     <li><Link to="/admin/settings/"> Settings </Link></li>
                     <li><Link to="/" target="_blank"> Go Website </Link></li>
-                    
                     {adminusername ? <li className="loginuser">Hello..{adminusername}
                           <ul className="loginuser-submenu">
                             <li onClick={this.logoutAdmin}>Logout</li>
@@ -185,7 +227,9 @@ class Header extends Component {
             </header>      
           );
         } else {
+          console.log('user else header');
           return (
+            
             <header id="header">
             <div className="container main-menu">
               <div className="row align-items-center justify-content-between d-flex">

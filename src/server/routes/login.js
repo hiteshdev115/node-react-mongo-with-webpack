@@ -29,6 +29,34 @@ exports.login = async function(req, res)
     });
 };
 
+exports.loginUserInfo = async function(req, res)
+{
+    console.log(req.body);
+    console.log('In login info API===>'+req.body.adminUid);
+    if(req.body.uid){
+      var userID = req.body.uid;
+    } else {
+      var userID = req.body.adminUid;
+    }
+    await userModel.findOne({
+      _id: userID      
+    }, function(err, user) {
+      if (err) throw err;
+  
+      if (!user) {
+        res.status(401).send({success: false, msg: 'Login user is not found!'});
+      } else {
+        // check if password matches
+        //console.log(user);
+        var token = jwt.sign(user.toJSON(), settings.secret);
+        // return the information including token as JSON
+        res.json({success: true, logininfo : user, token: 'JWT ' + token});
+      }
+    });
+};
+
+
+
 
 exports.register = async function(req, res)
 {

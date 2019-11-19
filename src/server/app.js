@@ -82,6 +82,7 @@ var setting = require('./routes/settingApi');
 
 
 app.post('/api/login', login.login); 
+app.post('/api/authuser/', login.loginUserInfo); 
 app.post('/api/register', login.register); 
 
 app.post('/api/adduser', user.insertuser); 

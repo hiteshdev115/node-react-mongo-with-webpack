@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
 import { Link } from 'react-router-dom';
 import Seo from '../page/SeoMeatData';
-
-
+import {connect} from 'react-redux';
+import {login} from '../store/action/login.action';
 
 class Login extends Component {
 
@@ -15,7 +15,8 @@ class Login extends Component {
       message: '',
       usernameError:'',
       passwordError:'',
-      authError:''
+      authError:'',
+      //loginError:''
     };
     
     this.checkLogin();
@@ -56,18 +57,34 @@ class Login extends Component {
   }
 
   checkLogin(){
+    /*if(!localStorage.getItem('admin-jwtToken') || localStorage.getItem('jwtToken')){
+      this.props.history.push('/login');
+      console.log('first login');
+    } else if(localStorage.getItem('adminuserid')){
+      console.log('admin');
+      this.props.history.push('/admin/dashboard');  
+    } else {
+      console.log('last login');
+      this.props.history.push('/');  
+    }*/
+    /*
     this.state = {
       loginUser: JSON.parse(localStorage.getItem('userdetails')),
       adminLoginUser: JSON.parse(localStorage.getItem('admin-userdetails'))
-    }
-    if(this.state.loginUser === null){
-      //open login screen
-      //console.log('nullll');
+    }*/
+    if(localStorage.getItem('jwtToken')){   
+      console.log('login jwt');
+      this.props.history.push('/');    
+    } else if(localStorage.getItem('admin-jwtToken')){
+      console.log('else login jwt');
+      this.props.history.push('/admin/dashboard'); 
     } else {
-      //console.log(this.state.loginUser.admin);
-      this.props.history.push('/login');    
+      this.props.history.push('/login'); 
     }
+    
   }
+
+  
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -75,44 +92,27 @@ class Login extends Component {
         //console.log('====>'+this.handleValidation());
         return this.handleValidation();
     } else {
-      var url = 'http://localhost:3001/api/login';
-      const { username, password } = this.state;
-      axios.post(url, { username, password })
-        .then((result) => {  
-          this.setState({ message: '' }); 
-          if(result.success === false) {
-              this.setState({ authError : '' });
-              this.setState({ authError : result.msg });
-          } else {
-              this.setState({ authError : '' });
-              var resultObject = JSON.parse(result.data.userData);
-              if(resultObject.admin === true){
-                localStorage.setItem('admin-jwtToken', result.data.token);
-                localStorage.setItem('admin-userdetails', result.data.userData);
-                this.props.history.push('/admin/dashboard');
-              } else {
-                localStorage.setItem('jwtToken', result.data.token);
-                localStorage.setItem('userdetails', result.data.userData);
-                this.props.history.push('/');
-              }
-              window.location.reload();
-          }
-          
-        })
-        .catch((error) => {
-          console.log('===Error=='+error);
-          if(error.response.status === 401) {
-            this.setState({ message: 'Login failed. Username or password not match' });
-          }
-        });
+        const { username, password } = this.state;
+        if (username && password) {
+            this.props.doLoginAction(username, password);
+            //console.log(this.props.isLoginSuccess);
+            this.setState({
+              email: '',
+              password: ''
+            });
+            
+        }
     }
     
   }
 
   render() {
     const { username, password, message } = this.state;
-    console.log(this.state.usernameError);
-    console.log(this.state.passwordError);
+    
+    //console.log('===>'+this.props.isLoginSuccess);
+    console.log('===>'+this.props.uid);
+    console.log('===>'+this.props.loginError);
+    
     return (
       <div>
         <Seo />
@@ -129,7 +129,7 @@ class Login extends Component {
               <input type="text" className={this.state.usernameError ? 'common-input mb-20 form-control errorMsg' : 'common-input mb-20 form-control'} placeholder="Your username" name="username" value={username} onChange={this.onChange}/>
               
               <label htmlFor="password" className="sr-only">Password</label>
-              <input type="password" id="password" className={this.state.passwordError ? 'common-input mb-20 form-control errorMsg' : 'common-input mb-20 form-control'} placeholder="Password" name="password" value={password} onChange={this.onChange} />
+              <input type="password" id="password" className={this.state.passwordError ? 'common-input mb-20 form-control errorMsg' : 'common-input mb-20 form-control'} placeholder="Password" name="password" value={password} onChange={e => this.setState({password: e.target.value})} />
               
               <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
               <p>
@@ -144,4 +144,18 @@ class Login extends Component {
   }
 }
 
-export default Login;
+function mapStateToProp(state){
+  
+  return({
+      isLoginSuccess: state.root.isLoginSuccess,
+      loginError: state.root.loginError,
+      uid: state.root.uid
+    })
+}
+function mapDispatchToProp(dispatch){
+  return({
+      doLoginAction: (username, password)=>{dispatch(login(username,password))}
+  })
+}
+
+export default connect(mapStateToProp,mapDispatchToProp)(Login);
