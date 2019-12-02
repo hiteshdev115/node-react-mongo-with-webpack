@@ -60,6 +60,7 @@ import AdminDatatableComponent from './page/adminpages/DatatablePage';
 import test1 from './page/test1';
 import test2 from './page/test2';
 
+
 //import {createBrowserHistory} from 'history'
 //const history = createBrowserHistory()
 import history from './History';
